@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Everest Security</title>
+  <meta name="description" content="Explore our wide range of security products - CCTV cameras, access control systems, fire safety equipment, and more.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<base target="_blank">
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-info">
+        <span><i class="fas fa-phone"></i> +91 9624696247</span>
+        <span><i class="fas fa-envelope"></i> info@everestsecurityonline.com</span>
+        <span><i class="fas fa-map-marker-alt"></i> Rajkot, Gujarat, India</span>
+      </div>
+      <div class="top-bar-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">ES</div>
+        <div class="logo-text">
+          <h1>Everest Security</h1>
+          <span>Your Safety, Our Priority</span>
+        </div>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html" class="active">Products</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="sectors.html">Sectors</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-secondary btn-sm">Client Login</a>
+        <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Our Products</h1>
+      <p>Comprehensive range of security solutions for every need</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>Products</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Browse Our Products</h2>
+        <p>Click on category filters to find the perfect security solution</p>
+      </div>
+      
+      <!-- Product Filters -->
+      <div class="product-filters">
+        <button class="filter-btn active" data-filter="all">All Products</button>
+        <button class="filter-btn" data-filter="cctv">CCTV Cameras</button>
+        <button class="filter-btn" data-filter="access">Access Control</button>
+        <button class="filter-btn" data-filter="fire">Fire Safety</button>
+        <button class="filter-btn" data-filter="intrusion">Intrusion</button>
+        <button class="filter-btn" data-filter="smart">Smart Home</button>
+      </div>
+      
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- CCTV Products -->
+        <div class="product-card" data-category="cctv">
+          <div class="product-image">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">CCTV</span>
+            <h3>HD Dome Camera</h3>
+            <p>2MP HD dome camera with 30m IR night vision, IP66 weatherproof rating, and wide-angle lens.</p>
+            <div class="product-price">₹2,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('HD Dome Camera')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="cctv">
+          <div class="product-image">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">CCTV</span>
+            <h3>Bullet Camera 4MP</h3>
+            <p>4MP bullet camera with 40m IR range, motion detection, and mobile app connectivity.</p>
+            <div class="product-price">₹4,499</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Bullet Camera 4MP')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="cctv">
+          <div class="product-image">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">CCTV</span>
+            <h3>PTZ Camera 5MP</h3>
+            <p>5MP PTZ camera with 20x optical zoom, 360° rotation, and auto-tracking capabilities.</p>
+            <div class="product-price">₹24,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('PTZ Camera 5MP')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="cctv">
+          <div class="product-image">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">CCTV</span>
+            <h3>WiFi IP Camera</h3>
+            <p>Wireless 3MP camera with two-way audio, cloud storage, and smart motion alerts.</p>
+            <div class="product-price">₹3,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('WiFi IP Camera')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <!-- Access Control -->
+        <div class="product-card" data-category="access">
+          <div class="product-image">
+            <i class="fas fa-fingerprint"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Access Control</span>
+            <h3>Biometric Attendance System</h3>
+            <p>Fingerprint-based attendance system with 1000 user capacity and USB data export.</p>
+            <div class="product-price">₹8,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Biometric Attendance System')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="access">
+          <div class="product-image">
+            <i class="fas fa-fingerprint"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Access Control</span>
+            <h3>Face Recognition Terminal</h3>
+            <p>AI-powered face recognition with temperature detection and mask detection.</p>
+            <div class="product-price">₹18,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Face Recognition Terminal')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="access">
+          <div class="product-image">
+            <i class="fas fa-fingerprint"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Access Control</span>
+            <h3>RFID Card Reader</h3>
+            <p>Proximity card reader with 5cm reading range and Wiegand 26 output.</p>
+            <div class="product-price">₹2,499</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('RFID Card Reader')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="access">
+          <div class="product-image">
+            <i class="fas fa-fingerprint"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Access Control</span>
+            <h3>Multi-Door Controller</h3>
+            <p>4-door access controller with TCP/IP connectivity and time-based access rules.</p>
+            <div class="product-price">₹14,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Multi-Door Controller')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <!-- Fire Safety -->
+        <div class="product-card" data-category="fire">
+          <div class="product-image">
+            <i class="fas fa-fire-extinguisher"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Fire Safety</span>
+            <h3>Smoke Detector</h3>
+            <p>Photoelectric smoke detector with 85dB alarm and 10-year battery life.</p>
+            <div class="product-price">₹899</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Smoke Detector')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="fire">
+          <div class="product-image">
+            <i class="fas fa-fire-extinguisher"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Fire Safety</span>
+            <h3>Fire Alarm Panel</h3>
+            <p>8-zone conventional fire alarm panel with LCD display and battery backup.</p>
+            <div class="product-price">₹12,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Fire Alarm Panel')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="fire">
+          <div class="product-image">
+            <i class="fas fa-fire-extinguisher"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Fire Safety</span>
+            <h3>Heat Detector</h3>
+            <p>Rate-of-rise heat detector for kitchens and areas with dust/smoke.</p>
+            <div class="product-price">₹749</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Heat Detector')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="fire">
+          <div class="product-image">
+            <i class="fas fa-fire-extinguisher"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Fire Safety</span>
+            <h3>Emergency Exit Light</h3>
+            <p>LED emergency exit sign with 3-hour battery backup and automatic testing.</p>
+            <div class="product-price">₹1,499</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Emergency Exit Light')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <!-- Intrusion -->
+        <div class="product-card" data-category="intrusion">
+          <div class="product-image">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Intrusion</span>
+            <h3>PIR Motion Sensor</h3>
+            <p>Passive infrared motion detector with 12m range and pet immunity up to 25kg.</p>
+            <div class="product-price">₹1,299</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('PIR Motion Sensor')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="intrusion">
+          <div class="product-image">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Intrusion</span>
+            <h3>Door/Window Sensor</h3>
+            <p>Wireless magnetic contact sensor with 5-year battery and 100m range.</p>
+            <div class="product-price">₹699</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Door/Window Sensor')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="intrusion">
+          <div class="product-image">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Intrusion</span>
+            <h3>Wireless Alarm Kit</h3>
+            <p>Complete home alarm system with hub, sensors, siren, and mobile app control.</p>
+            <div class="product-price">₹9,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Wireless Alarm Kit')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <!-- Smart Home -->
+        <div class="product-card" data-category="smart">
+          <div class="product-image">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Smart Home</span>
+            <h3>Video Door Phone</h3>
+            <p>7-inch color monitor with night vision camera and unlock function.</p>
+            <div class="product-price">₹6,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Video Door Phone')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="smart">
+          <div class="product-image">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Smart Home</span>
+            <h3>Smart Door Lock</h3>
+            <p>Fingerprint, PIN, card, and key access with auto-lock and audit trail.</p>
+            <div class="product-price">₹15,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Smart Door Lock')">Enquire Now</button>
+          </div>
+        </div>
+        
+        <div class="product-card" data-category="smart">
+          <div class="product-image">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="product-content">
+            <span class="product-category">Smart Home</span>
+            <h3>Smart Doorbell</h3>
+            <p>WiFi video doorbell with 2-way audio, motion detection, and cloud recording.</p>
+            <div class="product-price">₹4,999</div>
+            <button class="btn btn-secondary btn-sm" onclick="showEnquiry('Smart Doorbell')">Enquire Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Enquiry Modal -->
+  <div class="modal-overlay" id="enquiryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Product Enquiry</h3>
+        <button class="modal-close" onclick="closeEnquiry()">&times;</button>
+      </div>
+      <form id="enquiryForm">
+        <div class="form-group">
+          <label>Product</label>
+          <input type="text" id="productName" readonly>
+        </div>
+        <div class="form-group">
+          <label>Your Name *</label>
+          <input type="text" required placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" required placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label>Phone *</label>
+          <input type="tel" required placeholder="Enter your phone number">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Your enquiry details..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Enquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Need Help Choosing the Right Product?</h2>
+      <p>Our security experts are here to help you find the perfect solution for your needs.</p>
+      <a href="contact.html" class="btn btn-white btn-lg">Talk to an Expert</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">ES</div>
+            <div class="logo-text">
+              <h1>Everest Security</h1>
+              <span>Your Safety, Our Priority</span>
+            </div>
+          </a>
+          <p>Everest Security Pvt. Ltd. is a leading security solutions provider offering cutting-edge technology and expert services to protect businesses and homes across India.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="sectors.html">Sectors</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Products</h3>
+          <ul>
+            <li><a href="products.html">CCTV Cameras</a></li>
+            <li><a href="products.html">Access Control</a></li>
+            <li><a href="products.html">Fire Safety</a></li>
+            <li><a href="products.html">Intrusion Alarms</a></li>
+            <li><a href="products.html">Video Door Phones</a></li>
+            <li><a href="products.html">Smart Locks</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul class="footer-contact">
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Everest House, R.K. Park, 150 Feet Ring Road, Rajkot - 360004, Gujarat, India</span>
+            </li>
+            <li>
+              <i class="fas fa-phone"></i>
+              <span>+91 9624696247<br>+91 9624796248</span>
+            </li>
+            <li>
+              <i class="fas fa-envelope"></i>
+              <span>info@everestsecurityonline.com</span>
+            </li>
+            <li>
+              <i class="fas fa-clock"></i>
+              <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2024 Everest Security Pvt. Ltd. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top" onclick="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
