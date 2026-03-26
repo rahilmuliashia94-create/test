@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Everest Security — Client Dashboard</title>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* --- Theme variables (match photo) --- */
+  :root{
+    --page-bg: #f3f6f8;
+    --card-bg: #ffffff;
+    --muted: #6b7b8a;
+    --accent: #1e8f58;    /* deep green */
+    --accent-2: #37c96a;  /* bright green */
+    --accent-dark: #0e6b3f;
+    --panel-shadow: 0 6px 18px rgba(23,33,45,0.06);
+    --soft-shadow: 0 10px 30px rgba(20,30,40,0.06);
+    --glass: rgba(255,255,255,0.9);
+    --radius: 12px;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --blue-accent: #2b6ea3;
+  }
+
+  /* --- Base --- */
+  html,body{height:100%;margin:0;background:var(--page-bg);font-family:var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#12202a}
+  .container{max-width:1280px;margin:36px auto;padding:18px 18px 36px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98));border-radius:10px;box-shadow:0 8px 40px rgba(17,22,27,0.06);border:1px solid rgba(6,12,18,0.04)}
+
+  /* --- Header --- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 8px;border-bottom:1px solid rgba(8,12,16,0.03)}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo svg{width:72px;height:36px}
+  .brand h2{margin:0;font-weight:700;font-size:18px;color:#27404b}
+  .header-right{display:flex;align-items:center;gap:12px}
+  .plan-pill{background:linear-gradient(90deg,#f1fbf5,#eaffef);padding:8px 12px;border-radius:999px;border:1px solid rgba(12,80,42,0.06);color:var(--accent-dark);font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px}
+  .icons{display:flex;gap:10px;align-items:center}
+  .icon-btn{width:42px;height:36px;border-radius:8px;background:#ffffff;border:1px solid rgba(6,12,18,0.04);display:flex;align-items:center;justify-content:center;box-shadow:var(--panel-shadow);cursor:pointer}
+  .avatar{width:40px;height:40px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,12,18,0.04);box-shadow:var(--panel-shadow)}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+
+  /* --- Layout --- */
+  .layout{display:grid;grid-template-columns:220px 1fr 320px;gap:20px;padding:18px}
+  /* Sidebar */
+  .sidebar{background:linear-gradient(180deg,#fbfdff,#f7fafc);border-radius:12px;padding:16px;border:1px solid rgba(6,12,18,0.03);box-shadow:var(--panel-shadow)}
+  .nav-section{display:flex;flex-direction:column;gap:6px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:#2b4a57;text-decoration:none;font-weight:600}
+  .nav-item.active{background:linear-gradient(180deg,#f0faf6,#ecfef6);border:1px solid rgba(34,139,78,0.06)}
+  .nav-label{font-size:14px;color:#2b4a57}
+  .sidebar .section-title{font-size:12px;color:var(--muted);margin:12px 6px 6px}
+
+  /* Main content column */
+  .main{display:flex;flex-direction:column;gap:18px}
+  .welcome{font-size:22px;color:#20333a;margin:6px 0;font-weight:700}
+  /* Primary banner (amount due) */
+  .banner{display:flex;align-items:center;gap:16px;background:linear-gradient(90deg,#0b5162,#1b8b9e);color:#fff;padding:18px;border-radius:12px;box-shadow:var(--soft-shadow);border:1px solid rgba(5,10,12,0.06)}
+  .banner .due-left{flex:1}
+  .due-title{font-size:16px;color:#d7f7f2;margin-bottom:6px}
+  .due-amount{font-size:26px;font-weight:800;color:#fff;display:flex;gap:10px;align-items:center}
+  .due-sub{font-size:13px;color:rgba(255,255,255,0.85);margin-top:6px}
+  .banner .actions{display:flex;gap:10px;align-items:center}
+  .btn{padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042116;box-shadow:0 8px 18px rgba(14,100,55,0.12)}
+  .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff}
+
+  /* Dashboard grid inside main */
+  .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--card-bg);border-radius:12px;padding:14px;border:1px solid rgba(6,12,18,0.04);box-shadow:var(--panel-shadow)}
+  .card .card-title{font-weight:700;color:#23363d;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .small-muted{color:var(--muted);font-size:12px}
+  /* donut card specifics */
+  .donut-wrap{display:flex;gap:14px;align-items:center}
+  .donut-canvas{width:120px;height:120px;min-width:120px}
+  .legend-list{display:flex;flex-direction:column;gap:8px}
+  .legend-item{display:flex;gap:10px;align-items:center;font-weight:600;color:#21343a}
+
+  /* system status with area chart */
+  .status-graph{height:86px;width:100%;display:block}
+
+  /* service history small blocks */
+  .history-row{display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .history-col{display:flex;flex-direction:column;gap:6px}
+  .pill{padding:8px 10px;border-radius:8px;background:#f2faf7;border:1px solid rgba(6,12,18,0.03);font-weight:700;color:var(--accent-dark)}
+
+  /* recent invoices table */
+  table.invoices{width:100%;border-collapse:collapse;font-size:14px}
+  table.invoices thead th{font-weight:700;color:var(--muted);text-align:left;padding:10px 8px}
+  table.invoices tbody td{padding:10px 8px;border-top:1px solid rgba(6,12,18,0.03);color:#234045}
+  .status-badge{display:inline-block;padding:6px 8px;border-radius:8px;font-weight:700;font-size:13px}
+  .status-paid{background:#e8f8ee;color:var(--accent-dark);border:1px solid rgba(34,139,78,0.06)}
+  .status-due{background:#fff4e5;color:#b86a1a;border:1px solid rgba(184,106,26,0.06)}
+  .status-req{background:#e6f0ff;color:#2b6ea3;border:1px solid rgba(43,110,163,0.06)}
+
+  /* Right column widgets */
+  .right-col{display:flex;flex-direction:column;gap:14px}
+  .widget{background:var(--card-bg);border-radius:12px;padding:14px;border:1px solid rgba(6,12,18,0.03);box-shadow:var(--panel-shadow)}
+  .monitoring-badge{display:flex;align-items:center;gap:12px}
+  .shield{width:46px;height:46px;border-radius:8px;background:linear-gradient(180deg,#eaffef,#dff8e8);display:flex;align-items:center;justify-content:center;border:1px solid rgba(6,12,18,0.03)}
+  .widget .price{font-weight:800;color:var(--accent);font-size:20px}
+  .calc-cta{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:linear-gradient(90deg,#f4f8fb,#f7fbff);border:1px solid rgba(6,12,18,0.03)}
+
+  /* Footer small */
+  .footer-strip{display:flex;justify-content:space-between;align-items:center;padding:12px;margin-top:14px;border-radius:8px;background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid rgba(6,12,18,0.03);font-size:13px;color:var(--muted)}
+  /* responsive */
+  @media (max-width:1100px){
+    .layout{grid-template-columns:1fr; padding:8px}
+    .right-col{order:3}
+    .sidebar{order:2}
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+
+    <!-- Top bar -->
+    <div class="topbar" role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- Inline SVG logo to match style -->
+          <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#226b9a"/>
+                <stop offset="1" stop-color="#1e8f58"/>
+              </linearGradient>
+            </defs>
+            <g>
+              <path d="M12 40 L36 10 L60 40 Z" fill="#2b6ea3"/>
+              <path d="M56 40 L80 10 L104 40 Z" fill="url(#g1)" opacity="0.95"/>
+              <text x="120" y="34" font-family="Inter" font-weight="700" font-size="20" fill="#1f3b45">EVEREST</text>
+              <text x="120" y="50" font-family="Inter" font-weight="600" font-size="12" fill="#2b6ea3">SECURITY</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:14px;color:#2b4a57;font-weight:700">Dashboard</div>
+          <div style="font-size:12px;color:var(--muted)">Client area</div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="plan-pill">6 Months · ₹2,000/month</div>
+        <div class="icons" role="navigation" aria-label="Top actions">
+          <div class="icon-btn" title="Cart">🧾</div>
+          <div class="icon-btn" title="Notifications">🔔<span style="font-size:11px;color:#fff;background:#ff4b4b;border-radius:10px;padding:2px 6px;margin-left:6px;font-weight:700">1</span></div>
+          <div class="icon-btn" title="Settings">⚙️</div>
+          <div class="avatar" title="Account">
+            <img src="https://images.unsplash.com/photo-1545996124-2cbfc3c7f1ff?&w=200&q=60&auto=format&fit=crop" alt="avatar"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout with sidebar / main / right -->
+    <div class="layout" role="region" aria-label="Dashboard grid">
+
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-weight:800;color:#1f4246">Jay ganesh.</div>
+          <div style="font-size:12px;color:var(--muted)">Member</div>
+        </div>
+
+        <div class="nav-section" role="navigation" aria-label="Main menu">
+          <a href="#" class="nav-item active"><span>🏠</span><span class="nav-label">Dashboard</span></a>
+          <a href="#" class="nav-item"><span>📄</span><span class="nav-label">Invoices</span></a>
+          <a href="#" class="nav-item"><span>🧮</span><span class="nav-label">Calculations</span></a>
+          <a href="#" class="nav-item"><span>💳</span><span class="nav-label">Payment Info</span></a>
+          <a href="#" class="nav-item"><span>🕘</span><span class="nav-label">Service History</span></a>
+        </div>
+
+        <div class="section-title">SETTINGS</div>
+        <div class="nav-section">
+          <a href="#" class="nav-item"><span>📁</span><span class="nav-label">Invoices</span></a>
+          <a href="#" class="nav-item"><span>⚙️</span><span class="nav-label">Status</span></a>
+          <a href="#" class="nav-item"><span>❓</span><span class="nav-label">Support Center</span></a>
+        </div>
+
+      </aside>
+
+      <!-- Main content -->
+      <main class="main" aria-live="polite">
+
+        <!-- Banner: Amount Due -->
+        <section class="banner" role="region" aria-label="Amount due">
+          <div class="due-left">
+            <div class="due-title">Amount Due:</div>
+            <div class="due-amount">₹<span id="dueAmount">12,000</span></div>
+            <div class="due-sub">Next Payment: <strong>march 15, 2026</strong></div>
+          </div>
+
+          <div class="actions" style="display:flex;flex-direction:column;align-items:flex-end">
+            <div style="display:flex;gap:10px">
+              <button class="btn btn-primary" id="downloadInvoiceBtn">Download Invoice</button>
+              <button class="btn btn-outline" id="payNowBtn">Pay Now</button>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.9)">Invoice #INV-0035 • Due Jul 15, 2024</div>
+          </div>
+        </section>
+
+        <!-- Top cards grid -->
+        <div class="cards-grid">
+          <!-- Invoices Overview (donut) -->
+          <div class="card" aria-label="Invoices overview">
+            <div class="card-title">
+              <div>Invoices Overview</div>
+              <div class="small-muted">Summary</div>
+            </div>
+
+            <div class="donut-wrap" style="margin-top:6px">
+              <div>
+                <canvas id="invoiceDonut" class="donut-canvas" aria-label="paid vs pending invoices" role="img"></canvas>
+              </div>
+
+              <div class="legend-list">
+                <div style="font-weight:800;font-size:20px;color:#213a3f">67%<div style="font-size:12px;color:var(--muted);font-weight:600">Paid Invoices</div></div>
+                <div style="height:8px"></div>
+                <div class="legend-item"><span style="width:12px;height:12px;border-radius:3px;background:#22c55e;display:inline-block"></span> <span style="margin-left:6px">Paid Invoices — ₹12,000</span></div>
+                <div class="legend-item"><span style="width:12px;height:12px;border-radius:3px;background:#f59e0b;display:inline-block"></span> <span style="margin-left:6px">Pending Invoices — ₹6,000</span></div>
+                <div class="small-muted" style="margin-top:6px">Your Next Statement: Due on <strong>Jul 15, 2024</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Status -->
+          <div class="card" aria-label="System status">
+            <div class="card-title"><div>System Status</div><div class="small-muted">Realtime</div></div>
+
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></div>
+                  <div style="font-weight:800;color:#21343a">All Systems Operational</div>
+                </div>
+                <div class="small-muted" style="margin-top:8px">Status Date: <strong>Active Monitoring</strong></div>
+                <div class="small-muted" style="margin-top:10px">Connection: <strong>Online</strong></div>
+              </div>
+
+              <div style="width:220px">
+                <!-- small area chart (kept subtle) -->
+                <canvas id="statusArea" class="status-graph"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lower grid: service history + recent invoices -->
+        <div style="display:grid;grid-template-columns:1fr 420px;gap:16px">
+          <!-- Service history card -->
+          <div class="card">
+            <div class="card-title"><div>Service History</div><div class="small-muted">Activity summary</div></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="background:#fbfffb;border-radius:10px;padding:12px;border:1px solid rgba(6,12,18,0.03);">
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <div style="width:44px;height:44;border-radius:8px;background:linear-gradient(180deg,#eaffef,#dff8e8);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent-dark)">#18</div>
+                    <div>
+                      <div style="font-weight:800">#18</div>
+                      <div class="small-muted">Total Tickets</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(6,12,18,0.03);">
+                  <div style="font-weight:800;color:#2b6ea3">#7</div>
+                  <div class="small-muted">Break-Ins Prevented</div>
+                  <div class="small-muted" style="margin-top:6px">Last Report: Apr 17, 2024</div>
+                </div>
+
+                <div style="background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(6,12,18,0.03);">
+                  <div style="font-weight:800;color:#2b6ea3">Date import</div>
+                  <div class="small-muted">Last Report: Apr 17, 2024</div>
+                </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center">
+                <div style="width:150px;height:150px;border-radius:999px;background:linear-gradient(180deg,#f3f8ff,#ffffff);display:flex;align-items:center;justify-content:center;box-shadow:var(--panel-shadow);border:1px solid rgba(6,12,18,0.03)">
+                  <div style="text-align:center">
+                    <div style="font-size:22px;font-weight:800;color:#21343a">₹0</div>
+                    <div class="small-muted" style="margin-top:6px">Balance billed this period</div>
+                  </div>
+                </div>
+
+                <div class="small-muted">Last Report: a t h e d</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Recent Invoices -->
+          <div class="card">
+            <div class="card-title"><div>Recent Invoices</div><div class="small-muted">Latest billing</div></div>
+
+            <div style="margin-top:10px">
+              <table class="invoices" aria-describedby="recent-invoices">
+                <thead><tr><th>Invoice</th><th>Status</th><th>Due</th></tr></thead>
+                <tbody id="recentInvoicesBody">
+                  <!-- JS will fill -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer strip -->
+        <div class="footer-strip">
+          <div>EVEREST SECURITY <strong>RAJKOT GUJARAT</strong> · Monthly Cost <strong>₹2,000</strong></div>
+          <div class="small-muted">Renewal Date <strong>July 15, 2024</strong></div>
+        </div>
+
+      </main>
+
+      <!-- Right column -->
+      <aside class="right-col" aria-label="Right widgets">
+        <div class="widget">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div class="small-muted">Notifications</div><div style="margin-top:6px">Due: <strong>July 15, 2024</strong></div></div>
+            <div style="font-size:12px;color:var(--muted)">●</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+            <div style="flex:1">
+              <div style="font-weight:800">24/7 Monitoring Active</div>
+              <div class="small-muted">Monthly Cost <strong>₹2,000</strong></div>
+            </div>
+            <div class="shield">🛡️</div>
+          </div>
+        </div>
+
+        <div class="widget calc-cta">
+          <div style="flex:1">
+            <div style="font-weight:800">Calculate Taxes</div>
+            <div class="small-muted">Estimate final payable</div>
+          </div>
+          <button class="btn" style="background:linear-gradient(90deg,#2b6ea3,#4da1d6);color:#fff;border-radius:10px;padding:10px 12px;border:none">Calculate</button>
+        </div>
+
+        <div class="widget">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:800">Support Center</div>
+            <div class="small-muted">Open</div>
+          </div>
+          <div style="margin-top:10px">
+            <div style="font-weight:800">+91 8000 123456</div>
+            <div class="small-muted">support@everestsecurity.com</div>
+          </div>
+        </div>
+      </aside>
+
+    </div> <!-- end layout -->
+
+  </div> <!-- container -->
+
+  <!-- Small modals / toasts -->
+  <div id="toast" style="position:fixed;right:20px;bottom:20px;background:#21343a;color:#fff;padding:10px 14px;border-radius:10px;display:none;box-shadow:0 10px 30px rgba(0,0,0,0.2)"></div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://fxjkkfbnwwtjgxrelais.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
+
+// 🔐 Get logged-in user
+const client = JSON.parse(localStorage.getItem("client"));
+
+if (!client) {
+  alert("Not logged in");
+  window.location.href = "/";
+}
+
+// 📥 Load client data
+async function loadClient() {
+  const { data, error } = await supabase
+    .from("accounts")
+    .select("*")
+    .eq("username", client.username)
+    .single();
+
+  if (error || !data) {
+    alert("Client not found");
+    return;
+  }
+
+  // 💰 Update Amount Due
+  document.getElementById("dueAmount").innerText = data.amount_due || 0;
+
+  // 👤 Update name (sidebar)
+  document.querySelector(".sidebar div").innerText = data.username;
+
+  // 📄 Load invoices
+  loadInvoices(data.username);
+}
+
+// 📄 Load invoices for THIS client
+async function loadInvoices(username) {
+  const { data, error } = await supabase
+    .from("invoices")
+    .select("*")
+    .eq("username", username);
+
+  const tbody = document.getElementById("recentInvoicesBody");
+  tbody.innerHTML = "";
+
+  if (!data) return;
+
+  data.forEach(inv => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${inv.invoice_id}</td>
+      <td><span class="status-badge ${inv.status === "PAID" ? "status-paid" : "status-due"}">${inv.status}</span></td>
+      <td>₹${inv.amount}<div class="small-muted">${inv.due_date}</div></td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+// 💳 Pay button (later Razorpay)
+document.getElementById("payNowBtn").onclick = () => {
+  alert("Payment system coming next step");
+};
+
+// 📥 Download invoice
+document.getElementById("downloadInvoiceBtn").onclick = () => {
+  alert("PDF system coming next");
+};
+
+// 🚀 INIT
+loadClient();
+</script>
+</body>
+</html>
